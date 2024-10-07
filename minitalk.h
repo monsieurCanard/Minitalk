@@ -28,6 +28,7 @@ typedef struct my_char
 	int		nb_bits;
 	char	*binary;
 }	t_my_char;
+
 void	*ft_calloc(size_t nb, size_t size);
 int		ft_atoi(char *str);
 char	*ft_strdup(const char *src);

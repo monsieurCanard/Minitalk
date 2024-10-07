@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   serveur.c                                          :+:      :+:    :+:   */
+/*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anthony <anthony@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 13:02:34 by anthony           #+#    #+#             */
-/*   Updated: 2023/12/06 09:13:55 by anthony          ###   ########.fr       */
+/*   Updated: 2024/10/07 15:40:32 by anthony          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-int	g_pid_sign = 0;
+int g_pid_sign = 0;
 
-void	handler(int bit, siginfo_t *info, void *context)
+void handler(int bit, siginfo_t *info, void *context)
 {
 	(void)context;
 	if (bit == SIGUSR1)
@@ -28,27 +28,27 @@ void	handler(int bit, siginfo_t *info, void *context)
 	}
 }
 
-void	initialize_text(struct my_char *text)
+void initialize_text(struct my_char *text)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	text->nb_bits = 0;
 	text->binary = malloc(8);
 	if (!text->binary)
-		return ;
+		return;
 	while (i <= 8)
 	{
 		text->binary[i] = 0;
 		i++;
 	}
-	return ;
+	return;
 }
 
-void	print_letter(char *binary)
+void print_letter(char *binary)
 {
-	int	decimal;
-	int	i;
+	int decimal;
+	int i;
 
 	i = 7;
 	decimal = 0;
@@ -59,11 +59,11 @@ void	print_letter(char *binary)
 			decimal += 1;
 		i--;
 	}
-	write (1, &decimal, 1);
-	return ;
+	write(1, &decimal, 1);
+	return;
 }
 
-void	update_char(struct my_char *text, int pid)
+void update_char(struct my_char *text, int pid)
 {
 	if (pid > 0)
 	{
@@ -75,7 +75,7 @@ void	update_char(struct my_char *text, int pid)
 			print_letter(text->binary);
 			initialize_text(text);
 		}
-		kill (pid, SIGUSR1);
+		kill(pid, SIGUSR1);
 	}
 	else
 	{
@@ -87,17 +87,17 @@ void	update_char(struct my_char *text, int pid)
 			print_letter(text->binary);
 			initialize_text(text);
 		}
-		kill (pid * (-1), SIGUSR1);
+		kill(pid * (-1), SIGUSR1);
 	}
-	return ;
+	return;
 }
 
-int	main(void)
+int main(void)
 {
-	struct my_char		text;
-	struct sigaction	signal;
-	int					check_pid;
-	pid_t				pid;
+	struct my_char text;
+	struct sigaction signal;
+	int check_pid;
+	pid_t pid;
 
 	pid = getpid();
 	ft_printf("PID du serveur est : %d\n", pid);
