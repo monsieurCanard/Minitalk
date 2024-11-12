@@ -1,34 +1,33 @@
-CC = gcc 
+CC = cc 
 
 CFLAGS = -Wall -Werror -Wextra -I.
 
-INC 		= 	minitalk.h
+INC = minitalk.h
 
-SRCS_SERVEUR		= 	server/server.c		\
-						server/ft_bzero.c
+SRCS_SERVEUR =	server/server.c	\
+				server/ft_bzero.c
 
-SRCS_CLIENT			= 	client/ft_atoi.c		\
-						client/client.c
+SRCS_CLIENT =	client_funct/client.c	\
+				client_funct/ft_atoi.c
 
 OBJS_SERVEUR = ${SRCS_SERVEUR:.c=.o}
-
 OBJS_CLIENT = ${SRCS_CLIENT:.c=.o}
 
 all: serveur client
 
-serveur: server/server.c
-	cc ${CFLAGS} ${SRCS_SERVEUR} lib/libftprintf.a -o serveur  
+serveur: $(OBJS_SERVEUR)
+	cc ${CFLAGS} $(OBJS_SERVEUR) lib/libftprintf.a -o serveur  
 
-client : client/client.c
-	cc ${CFLAGS} ${SRCS_CLIENT} lib/libftprintf.a -o client 
+client : $(OBJS_CLIENT)
+	cc ${CFLAGS} $(OBJS_CLIENT) lib/libftprintf.a -o client 
 
-clean:	
+clean:
 		rm -f server/*.o
-		rm -f client/*.o
+		rm -f client_funct/*.o
 
-fclean:	clean
+fclean: clean
 		rm client serveur 
 
-re:	fclean all
+re: fclean all
 
 .PHONY: re clean fclean
